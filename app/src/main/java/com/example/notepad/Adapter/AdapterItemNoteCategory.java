@@ -1,6 +1,7 @@
 package com.example.notepad.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notepad.Interface.IClickLongTime;
+import com.example.notepad.Model.Category;
 import com.example.notepad.Model.Note;
 import com.example.notepad.R;
 
@@ -22,10 +24,13 @@ public class AdapterItemNoteCategory extends RecyclerView.Adapter<AdapterItemNot
     private ArrayList<Note> noteArrayList ;
    private   IClickLongTime iClickLongTime ;
 
-    public AdapterItemNoteCategory(Context context, ArrayList<Note> noteArrayList,  IClickLongTime  iClickLongTime) {
+   private String category ;
+
+    public AdapterItemNoteCategory(Context context, ArrayList<Note> noteArrayList,  IClickLongTime  iClickLongTime ,  String category ) {
         this.context = context;
         this.noteArrayList = noteArrayList;
         this.iClickLongTime = iClickLongTime;
+        this.category = category;
     }
 
     @NonNull
@@ -46,16 +51,32 @@ public class AdapterItemNoteCategory extends RecyclerView.Adapter<AdapterItemNot
     @Override
     public void onBindViewHolder(@NonNull AdapterItemNoteCategory.ViewHolder holder, int position) {
 
+        String s = "Last edit : ";
 
         Note note = noteArrayList.get(position);
         holder.tvTitle.setText(note.getTitle());
-        holder.tvContent.setText(note.getContent());
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iClickLongTime.click(note);
-            }
-        });
+        holder.tvContent.setText(this.category);
+        s +=  note.getTimeEdit() ;
+        holder.tvTime.setText(s);
+
+    //        holder.tvContent.setText(note.getContent());
+
+
+//        for (Category item : note.getCategories())
+//        {
+//            s +=  item.getNameCategory() + " , ";
+//        }
+//        holder.tvContent.setText(s);
+//
+//        Log.d("fsfas232",s);
+
+
+//        holder.imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                iClickLongTime.click(note);
+//            }
+//        });
 
 
     }
@@ -67,7 +88,7 @@ public class AdapterItemNoteCategory extends RecyclerView.Adapter<AdapterItemNot
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle,  tvContent;
+        public TextView tvTitle,  tvContent , tvTime;
         private ImageView imageView ;
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +97,7 @@ public class AdapterItemNoteCategory extends RecyclerView.Adapter<AdapterItemNot
             tvTitle = itemView.findViewById(R.id.tvTitle);
 
             tvContent = itemView.findViewById(R.id.tvContent);
+            tvTime = itemView.findViewById(R.id.tvTime);
 
 
         }

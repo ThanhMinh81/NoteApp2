@@ -1,6 +1,7 @@
 package com.example.notepad.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,8 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.ViewHo
 
         Category category = categoryArrayList.get(position);
 
+        Log.d("fsadfasfa",category.getNameCategory());
+
         holder.tvName.setText(category.getNameCategory());
 
         holder.imgEdit.setOnClickListener(v -> {
@@ -64,9 +67,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.ViewHo
 
     @Override
     public int getItemCount() {
-
         return categoryArrayList.size();
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

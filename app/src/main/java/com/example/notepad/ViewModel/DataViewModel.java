@@ -36,6 +36,9 @@ public class DataViewModel extends ViewModel {
     private MutableLiveData<String> optionString = new MutableLiveData<>();
 
 
+    private MutableLiveData<String> dataCurrentPage = new MutableLiveData<>();
+
+
 
     DBManager databaseHandler;
 
@@ -229,7 +232,11 @@ public class DataViewModel extends ViewModel {
         databaseHandler.updateNotesCategories(notes,categories);
     }
 
+    public MutableLiveData<String> getDataCurrentPage() {
+        return dataCurrentPage;
+    }
 
-
-
+    public void setDataCurrentPage(String dataCurrentPage) {
+        this.dataCurrentPage.setValue(dataCurrentPage);
+    }
 }

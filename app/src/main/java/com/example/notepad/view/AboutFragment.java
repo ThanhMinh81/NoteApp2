@@ -42,10 +42,16 @@ public class AboutFragment extends Fragment {
 
     ConstraintLayout constraintLayout;
 
+    String nameCategory ;
 
-    public AboutFragment(String idCategory) {
-        this.idCategory = idCategory;
+
+
+    public AboutFragment(String idCategory , String nameCategory)
+    {
+        this.idCategory = idCategory ;
+        this.nameCategory = nameCategory ;
     }
+
 
     @Nullable
     @Override
@@ -64,7 +70,7 @@ public class AboutFragment extends Fragment {
 
         notes = new ArrayList<>();
         constraintLayout = view.findViewById(R.id.constraintAbout);
-        adapterItemNoteCategory = new AdapterItemNoteCategory(getContext(), notes, iClickLongTime);
+        adapterItemNoteCategory = new AdapterItemNoteCategory(getContext(), notes, iClickLongTime, nameCategory);
         rcvAboutFragment = view.findViewById(R.id.rcvFragmentAbout);
         rcvAboutFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rcvAboutFragment.setAdapter(adapterItemNoteCategory);

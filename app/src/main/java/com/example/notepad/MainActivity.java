@@ -83,13 +83,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isDrawerOpen = false;
 
     String selector = "";
-    IData iData;
 
     Toolbar toolbar;
 
     MenuItem searchItem;
+    MenuItem menuItemSort;
 
-    ConstraintLayout constraintLayout;
 
     // icon open menu selecter
     Drawable overflowIcon;
@@ -101,17 +100,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     int itemId = 0;
 
-    boolean checkSelected = false  ;
+    boolean checkSelected = false;
 
-    SearchView searchView ;
+    SearchView searchView;
 
     AdapterSelectCategory adapterSelectCategory;
     ArrayList<Category> categoryArrayList;
 
-    ArrayList<Category> categories ;
+    ArrayList<Category> categories;
 
     ArrayList<Note> noteArrayListSelected = new ArrayList<>();
-
 
 
     @Override
@@ -124,8 +122,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.menuverticalicon));
         overflowIcon = toolbar.getOverflowIcon();
-//        overflowIcon.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.colorTextSolari), PorterDuff.Mode.SRC_IN);
-      toolbar.setTitle("NotePad");
+
+
+        toolbar.setTitle("Notepad Free");
 
         drawerLayout = findViewById(R.id.drawer_layout);
         floatingActionButton = findViewById(R.id.fab);
@@ -160,15 +159,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dataViewModel.getAllListCategory();
 
-          iStateList = new IStateList() {
-              @Override
-              public void totalList(ArrayList<Note> noteArrayList) {
-                  noteArrayListSelected.clear();
-                  noteArrayListSelected.addAll(noteArrayList);
-                  toolbar.setTitle(String.valueOf(noteArrayList.size()));
-              }
-          };
-
+        iStateList = new IStateList() {
+            @Override
+            public void totalList(ArrayList<Note> noteArrayList) {
+                noteArrayListSelected.clear();
+                noteArrayListSelected.addAll(noteArrayList);
+                toolbar.setTitle(String.valueOf(noteArrayList.size()));
+            }
+        };
 
 
         dataViewModel.getListCategory().observe(this, new Observer<ArrayList<Category>>() {
@@ -228,21 +226,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+        dataViewModel.getSelectAllMutableLiveData().observe(this, new Observer<SelectAll>() {
+            @Override
+            public void onChanged(SelectAll selectAll) {
+                Log.d("sfasdffasd", selectAll.toString());
+                // cai nay la ssu ly khi ma nguoi ddung chon item ben homefraggment
+                checkSelected = selectAll.isSelect();
+                invalidateOptionsMenu();
+                toolbar.setTitle(String.valueOf(HomeFragment.notesSelect.size()));
+            }
+        });
 
 
-            dataViewModel.getSelectAllMutableLiveData().observe(this, new Observer<SelectAll>() {
-                @Override
-                public void onChanged(SelectAll selectAll) {
-                    Log.d("sfasdffasd",selectAll.toString());
-                    // cai nay la ssu ly khi ma nguoi ddung chon item ben homefraggment
-                    checkSelected = selectAll.isSelect() ;
-                    invalidateOptionsMenu();
-                    toolbar.setTitle(String.valueOf(HomeFragment.notesSelect.size()));
-                }
-            });
-
-
-            // cai nay minh phai tu custom lai vi  drawerLayout bi loi chi do ko tu mo nua
+        // cai nay minh phai tu custom lai vi  drawerLayout bi loi chi do ko tu mo nua
         // khi ma them icon back cho select all thi bi nhu vay chua fix dc
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -261,13 +257,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dataViewModel.getOptionString().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if(s.equals("DeleteSuccess"))
-                {
-                    SelectAll selectAll = new SelectAll(false,false);
+                if (s.equals("DeleteSuccess")) {
+                    SelectAll selectAll = new SelectAll(false, false);
                     dataViewModel.setSelectAllMutableLiveData(selectAll);
                     checkSelected = false;
                     invalidateOptionsMenu();
                 }
+            }
+        });
+
+
+        setUpMenuToolbar();
+
+
+    }
+
+    private void setUpMenuToolbar() {
+
+        dataViewModel.getDataCurrentPage().observe(MainActivity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+
+                switch (s) {
+                    case "Category":
+                        searchItem.setVisible(false);
+                        menuItemSort.setVisible(false);
+                        toolbar.getOverflowIcon().setVisible(false, false);
+                        toolbar.setTitle("Categories");
+                        floatingActionButton.setVisibility(View.GONE);
+
+                        break;
+
+                    case "Home":
+                        searchItem.setVisible(true);
+                        menuItemSort.setVisible(true);
+                        toolbar.hideOverflowMenu();
+                        toolbar.setTitle("Notepad Free");
+                        floatingActionButton.setVisibility(View.VISIBLE);
+
+                        break;
+
+                    default:
+
+
+                }
+
+
             }
         });
 
@@ -280,20 +315,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void click(Category category, Boolean aBoolean) {
 
-                if (aBoolean)
-                {
+                if (aBoolean) {
                     categories.add(category);
-                }else {
-                    for (Category category1 : categories)
-                    {
-                        if(category1.getNameCategory().trim().trim().equals(category.getNameCategory().trim()))
-                        {
+                } else {
+                    for (Category category1 : categories) {
+                        if (category1.getNameCategory().trim().trim().equals(category.getNameCategory().trim())) {
                             categories.remove(category1);
-                        }}
+                        }
+                    }
                 }
             }
+
             @Override
-            public void readyCheck(Category category) {}
+            public void readyCheck(Category category) {
+            }
         };
         categoryArrayList = new ArrayList<>();
         adapterSelectCategory = new AdapterSelectCategory(categoryArrayList, clickCategory);
@@ -302,8 +337,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dataViewModel.getListCategory().observe(MainActivity.this, new Observer<ArrayList<Category>>() {
             @Override
-            public void onChanged(ArrayList<Category> categories)
-            {
+            public void onChanged(ArrayList<Category> categories) {
                 categoryArrayList.clear();
                 categoryArrayList.addAll(categories);
                 adapterSelectCategory.notifyDataSetChanged();
@@ -338,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_select) {
 
             // guui su kien chon tata ca den cho fragmeent dang lang nghe
-            SelectAll selectAll = new SelectAll(true,true);
+            SelectAll selectAll = new SelectAll(true, true);
             dataViewModel.setSelectAllMutableLiveData(selectAll);
 
 
@@ -355,15 +389,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.sort_menu_item) {
             Toast.makeText(this, "Sort", Toast.LENGTH_SHORT).show();
             showDialogSort();
-        }else  if (id == R.id.menu_category_item)
-        {
-            SelectAll selectAll = new SelectAll(true,true);
-            dataViewModel.setSelectAllMutableLiveData(selectAll);
-        }else  if(id == R.id.menu_trash_item)
-        {
+        } else if (id == R.id.menu_category_item) {
+            if (checkSelected) {
+                SelectAll selectAll = new SelectAll(false, false);
+                dataViewModel.setSelectAllMutableLiveData(selectAll);
+            } else {
+                SelectAll selectAll = new SelectAll(true, true);
+                dataViewModel.setSelectAllMutableLiveData(selectAll);
+            }
+
+        } else if (id == R.id.menu_trash_item) {
             dataViewModel.setOptionString("Trash");
-        }else  if(id == R.id.nav_category_select)
-        {
+        } else if (id == R.id.nav_category_select) {
             showDialogCategory(MainActivity.this);
         }
 
@@ -398,8 +435,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvOkCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("óhdfhashfa",noteArrayListSelected.size() + " " + categories.size() );
-                dataViewModel.updateNoteCategoryList(noteArrayListSelected,categories);
+                Log.d("óhdfhashfa", noteArrayListSelected.size() + " " + categories.size());
+                dataViewModel.updateNoteCategoryList(noteArrayListSelected, categories);
                 Toast.makeText(context, "Cập nhật thể loại thành công", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
@@ -420,74 +457,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 // su ly toolbar kkhi nguoi dung pick item note
 //        =======================================================================
 
-          if(checkSelected) {
-              getMenuInflater().inflate(R.menu.menu_option_selected, menu);
+        if (checkSelected) {
+            getMenuInflater().inflate(R.menu.menu_option_selected, menu);
 //              searchItem.setVisible(false);
 
-              hideIcon();
+            hideIcon();
 
-              getMenuInflater().inflate(R.menu.menu_category,menu);
-              MenuItem menuCategory = menu.findItem(R.id.menu_category_item);
-              Drawable icCategory = menuCategory.getIcon();
-              icCategory.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.white), PorterDuff.Mode.SRC_IN);
-              menuCategory.setIcon(icCategory);
+            getMenuInflater().inflate(R.menu.menu_category, menu);
+            MenuItem menuCategory = menu.findItem(R.id.menu_category_item);
+            Drawable icCategory = menuCategory.getIcon();
+            icCategory.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.white), PorterDuff.Mode.SRC_IN);
+            menuCategory.setIcon(icCategory);
 
-              searchItem = menu.findItem(R.id.item_search);
+            searchItem = menu.findItem(R.id.item_search);
 
-              getMenuInflater().inflate(R.menu.menu_trash,menu);
-              MenuItem menuTrash = menu.findItem(R.id.menu_trash_item);
-              // thay doi mau cua icon
-              Drawable icon = menuTrash.getIcon();
-              icon.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.white), PorterDuff.Mode.SRC_IN);
-              menuTrash.setIcon(icon);
-
-
-              // Thay doi mau sac cho icon back
-              Drawable navigationIcon = ContextCompat.getDrawable(this, R.drawable.baseline_arrow_back_24);
-              if (navigationIcon != null) {
-                  // Thiết lập màu cho Drawable
-                  navigationIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
-
-                  // Đặt Drawable đã tùy chỉnh làm NavigationIcon cho Toolbar
-                  toolbar.setNavigationIcon(navigationIcon);
-              }
+            getMenuInflater().inflate(R.menu.menu_trash, menu);
+            MenuItem menuTrash = menu.findItem(R.id.menu_trash_item);
+            // thay doi mau cua icon
+            Drawable icon = menuTrash.getIcon();
+            icon.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.white), PorterDuff.Mode.SRC_IN);
+            menuTrash.setIcon(icon);
 
 
+            // Thay doi mau sac cho icon back
+            Drawable navigationIcon = ContextCompat.getDrawable(this, R.drawable.baseline_arrow_back_24);
+            if (navigationIcon != null) {
+                // Thiết lập màu cho Drawable
+                navigationIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
 
-                if(checkSelected)
-                {
-                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Log.d("sdodfasofaa","safasffa");
-                            // thoat khoi che do select va select all
-                            SelectAll selectAll = new SelectAll(false,false);
-                            dataViewModel.setSelectAllMutableLiveData(selectAll);
-                            checkSelected = false;
-                            invalidateOptionsMenu();
+                // Đặt Drawable đã tùy chỉnh làm NavigationIcon cho Toolbar
+                toolbar.setNavigationIcon(navigationIcon);
+            }
 
-                        }
-                    });
-                }
 
-          }
+            if (checkSelected) {
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("sdodfasofaa", "safasffa");
+                        // thoat khoi che do select va select all
+                        SelectAll selectAll = new SelectAll(false, false);
+                        dataViewModel.setSelectAllMutableLiveData(selectAll);
+                        checkSelected = false;
+                        invalidateOptionsMenu();
+
+                    }
+                });
+            }
+
+        }
 //         =======================================================================
-           else {
-              getMenuInflater().inflate(R.menu.menu_option, menu);
-              getMenuInflater().inflate(R.menu.searchview, menu);
-              getMenuInflater().inflate(R.menu.sort_menu,menu);
+        else {
+            getMenuInflater().inflate(R.menu.menu_option, menu);
+            getMenuInflater().inflate(R.menu.searchview, menu);
+            getMenuInflater().inflate(R.menu.sort_menu, menu);
 
-              toggle.setDrawerIndicatorEnabled(true);
-              toolbar.setTitle("NotePad");
+            toggle.setDrawerIndicatorEnabled(true);
+            toolbar.setTitle("Notepad Free");
 
 
-              toolbar.getNavigationIcon().setVisible(false,false);
+            toolbar.getNavigationIcon().setVisible(false, false);
 
-              searchItem = menu.findItem(R.id.item_search);
+            searchItem = menu.findItem(R.id.item_search);
 
-              SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+            SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
 
-                searchView = null;
+            searchView = null;
 
 //              toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 //                  @Override
@@ -499,106 +534,103 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //              });
 
 
-              // doii mauu cho iconn search
-              searchView = (SearchView) searchItem.getActionView();
+            // doii mauu cho iconn search
+            searchView = (SearchView) searchItem.getActionView();
 
-              ImageView imageView = searchView.findViewById(androidx.appcompat.R.id.search_button);
-              imageView.setColorFilter(Color.WHITE);
+            ImageView imageView = searchView.findViewById(androidx.appcompat.R.id.search_button);
+            imageView.setColorFilter(Color.WHITE);
 
-              // thhay dổi màu cuẩ menu item sort
-              MenuItem menuItemSort = menu.findItem(R.id.sort_menu_item);
-              SpannableString spannableString = new SpannableString(menuItemSort.getTitle());
-              spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.white)), 0, spannableString.length(), 0);
-              menuItemSort.setTitle(spannableString);
-
-
-              // Đặt sự kiện cho nút Navigation trên toolbar
-              toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      // Nếu DrawerLayout đang mở, đóng nó lại
-                      if (isDrawerOpen) {
-                          Log.d("sfsadfasf","dong");
-                          drawerLayout.closeDrawer(GravityCompat.START);
-                          isDrawerOpen = false;
-                      } else { // Nếu DrawerLayout đang đóng, mở nó ra
-                          Log.d("sfsadfasf","mo");
-                          drawerLayout.openDrawer(GravityCompat.START);
-                          isDrawerOpen = true;
-                      }
-                  }
-              });
-
-              searchView.setOnSearchClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-
-                      Toast.makeText(MainActivity.this, "mO", Toast.LENGTH_SHORT).show();
-                       toggle.getDrawerArrowDrawable().setVisible(false,false);
-                       menuItemSort.setVisible(false);
-                  }
-              });
+            // thhay dổi màu cuẩ menu item sort
+            menuItemSort = menu.findItem(R.id.sort_menu_item);
+            SpannableString spannableString = new SpannableString(menuItemSort.getTitle());
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.white)), 0, spannableString.length(), 0);
+            menuItemSort.setTitle(spannableString);
 
 
+            // Đặt sự kiện cho nút Navigation trên toolbar
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Nếu DrawerLayout đang mở, đóng nó lại
+                    if (isDrawerOpen) {
+                        Log.d("sfsadfasf", "dong");
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        isDrawerOpen = false;
+                    } else { // Nếu DrawerLayout đang đóng, mở nó ra
+                        Log.d("sfsadfasf", "mo");
+                        drawerLayout.openDrawer(GravityCompat.START);
+                        isDrawerOpen = true;
+                    }
+                }
+            });
 
-              searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                  @Override
-                  public boolean onClose() {
-                      //do what you want  searchview is not expanded
-                      Toast.makeText(MainActivity.this, "dONG", Toast.LENGTH_SHORT).show();
+            searchView.setOnSearchClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                      toggle.getDrawerArrowDrawable().setVisible(true,true);
-                      menuItemSort.setVisible(true);
-
-                      return false;
-                  }
-              });
-
-
-              searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                  @Override
-                  public boolean onQueryTextSubmit(String query) {
-                      // Handle search query submission
-
-                      return false;
-                  }
-
-                  @Override
-                  public boolean onQueryTextChange(String newText) {
-                      dataViewModel.setStringMutableLiveData(newText.trim());
-                      // list result search
-                      ArrayList<Note> noteNewArrayList = new ArrayList<>();
-                      // xét cho nó list mới là xong
-                      if (newText.trim().length() > 0) {
-                          int count = 0;
-                          // check xem co tim ra hay khong
-                          Boolean check = false;
-                          for (Note note : noteArrayList) {
-                              count++;
-                              if (note.getTitle().contains(newText.trim().toLowerCase()) || note.getTitle().contains(newText.trim().toUpperCase())) {
-                                  check = true;
-                                  noteNewArrayList.add(note);
-                                  dataViewModel.setListMutableLiveData(noteNewArrayList);
-                              }
-                          }
-                          if (count == noteArrayList.size() && !check) {
-                              // neu khong tim thay set mang ve empty
-                              ArrayList<Note> notes = new ArrayList<>();
-                              dataViewModel.setListMutableLiveData(notes);
-                          }
-                      } else if (newText.trim().length() == 0) {
-                          Log.d("fasfa", noteArrayList.size() + "");
-                          dataViewModel.setListMutableLiveData(noteArrayList);
-                      }
-                      // Handle search query text change
-                      return false;
-                  }
-              });
+                    Toast.makeText(MainActivity.this, "mO", Toast.LENGTH_SHORT).show();
+                    toggle.getDrawerArrowDrawable().setVisible(false, false);
+                    menuItemSort.setVisible(false);
+                }
+            });
 
 
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    //do what you want  searchview is not expanded
+                    Toast.makeText(MainActivity.this, "dONG", Toast.LENGTH_SHORT).show();
+
+                    toggle.getDrawerArrowDrawable().setVisible(true, true);
+                    menuItemSort.setVisible(true);
+
+                    return false;
+                }
+            });
 
 
-          }
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    // Handle search query submission
+
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    dataViewModel.setStringMutableLiveData(newText.trim());
+                    // list result search
+                    ArrayList<Note> noteNewArrayList = new ArrayList<>();
+                    // xét cho nó list mới là xong
+                    if (newText.trim().length() > 0) {
+                        int count = 0;
+                        // check xem co tim ra hay khong
+                        Boolean check = false;
+                        for (Note note : noteArrayList) {
+                            count++;
+                            if (note.getTitle().contains(newText.trim().toLowerCase()) || note.getTitle().contains(newText.trim().toUpperCase())) {
+                                check = true;
+                                noteNewArrayList.add(note);
+                                dataViewModel.setListMutableLiveData(noteNewArrayList);
+                            }
+                        }
+                        if (count == noteArrayList.size() && !check) {
+                            // neu khong tim thay set mang ve empty
+                            ArrayList<Note> notes = new ArrayList<>();
+                            dataViewModel.setListMutableLiveData(notes);
+                        }
+                    } else if (newText.trim().length() == 0) {
+                        Log.d("fasfa", noteArrayList.size() + "");
+                        dataViewModel.setListMutableLiveData(noteArrayList);
+                    }
+                    // Handle search query text change
+                    return false;
+                }
+            });
+
+
+        }
 
 
         return true;
@@ -627,13 +659,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-    
+
     // menu drawer selector
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+
         if (id > 0 && id <= itemId) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment(String.valueOf(id))).commit();
+            Log.d("Fsfsafafsa", item.getTitle().toString() + " ");
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment(String.valueOf(id), item.getTitle().toString())).commit();
 
         } else {
             if (id == R.id.fragmentHome) {
@@ -719,15 +754,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    void hideIcon()
-    {
+    void hideIcon() {
         // an toggle
 
         toggle.setDrawerIndicatorEnabled(false);
 
 
     }
-
 
 
 }

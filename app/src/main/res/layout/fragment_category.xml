@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-       android:id="@+id/layoutcategory"
-        android:layout_marginTop="56dp"
-        android:orientation="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        tools:context=".view.CategoryFragment"
-        android:layout_height="match_parent">
+<LinearLayout android:id="@+id/layoutcategory"
+    android:layout_marginTop="56dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:context=".view.CategoryFragment"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:textColorHint="@color/colorTextSolari"
+
+                android:textColorHint="#A6A690"
                 android:hint="New category name"
                 android:layout_weight="2"
                 android:id="@+id/edNameCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:id="@+id/btnAddCaterory"
-        android:layout_width="wrap_content"
-        android:text="ADD"
-        android:textStyle="bold"
-        android:textColor="@color/appbar"
-        android:layout_height="wrap_content"/>
+
+             <Button
+
+                 android:text="ADD"
+                 android:background="@drawable/bg_button_add"
+                 app:backgroundTint="@null"
+                 android:textColor="@color/black"
+                 android:id="@+id/btnAddCaterory"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"/>
+
 
         </LinearLayout>
 

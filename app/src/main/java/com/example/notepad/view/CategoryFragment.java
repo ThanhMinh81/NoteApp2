@@ -1,21 +1,25 @@
 package com.example.notepad.view;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.notepad.Adapter.AdapterCategory;
@@ -32,7 +36,7 @@ import java.util.ArrayList;
 
 public class CategoryFragment extends Fragment   {
     View view;
-    MaterialButton btnAddCaterory ;
+    Button btnAddCaterory ;
     EditText edName ;
 
     DBManager databaseHandler;
@@ -64,6 +68,7 @@ public class CategoryFragment extends Fragment   {
         rcvCategory = view.findViewById(R.id.rcvCategory);
 
         linearLayout = view.findViewById(R.id.layoutcategory);
+
 
         categoryArrayList = new ArrayList<>();
         dialog = new Dialog(getContext());
@@ -108,6 +113,8 @@ public class CategoryFragment extends Fragment   {
         dataViewModel = new ViewModelProvider(requireActivity(),factory).get(DataViewModel.class);
 
         dataViewModel.getAllListCategory();
+        dataViewModel.setDataCurrentPage("Category");
+
 
         dataViewModel.getListCategory().observe(requireActivity(), categories -> {
             categoryArrayList.clear();
@@ -117,10 +124,14 @@ public class CategoryFragment extends Fragment   {
 
 
         btnAddCaterory.setOnClickListener(v -> {
-            Category category = new Category();
-            category.setNameCategory(edName.getText().toString());
-            edName.setText("");
-            dataViewModel.addCategory(category);
+
+            if(edName.getText().length() > 0)
+            {
+                Category category = new Category();
+                category.setNameCategory(edName.getText().toString());
+                edName.setText("");
+                dataViewModel.addCategory(category);
+            }
 
         });
 
@@ -131,23 +142,23 @@ public class CategoryFragment extends Fragment   {
     private void updateCaate(Category category) {
 
         EditText edName ;
-        Button btnUpdate , btnCancle ;
+        TextView btnUpdate , btnCancle ;
 
         dialog.setContentView(R.layout.update_category_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
         dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
 
-        btnUpdate = dialog.findViewById(R.id.btnUpdate);
+        btnUpdate = dialog.findViewById(R.id.btnUpdateCategory);
         btnCancle = dialog.findViewById(R.id.btnCancle);
-        edName = dialog.findViewById(R.id.edNameCategory);
+        edName = dialog.findViewById(R.id.edNameCategoryUpdate);
 
          btnUpdate.setOnClickListener(view -> {
-            Category category1 = new Category();
-            category1.setIdCategory(category.getIdCategory());
-            category1.setNameCategory(edName.getText().toString());
+             Category category1 = new Category();
+             category1.setIdCategory(category.getIdCategory());
+             category1.setNameCategory(edName.getText().toString());
 
-            dataViewModel.updateCategory(category1);
+             dataViewModel.updateCategory(category1);
              Toast.makeText(getActivity(), "Cập nhật thành công !", Toast.LENGTH_SHORT).show();
              dialog.dismiss();
 
@@ -164,25 +175,43 @@ public class CategoryFragment extends Fragment   {
 
     private void deleteCate(Category category) {
 
-        MyDialog.showConfirmationDialog(getContext(), "Xác nhận xóa", "Bạn muốn xóa danh mục này ?", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Xử lý khi người dùng chọn đồng ý
+        String s = "Delete category " + category.getNameCategory() + " ? Notes from the category wont be deleted .";
 
-                 dataViewModel.removeCategory(category);
-                 dialog.dismiss();
-                Toast.makeText(getContext(), "Xóa thành công !", Toast.LENGTH_SHORT).show();
+        TextView edName ;
+        TextView btnUpdate , btnCancle ;
 
-            }
-        }, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Xử lý khi người dùng chọn hủy
-                dialog.dismiss();
-            }
+        dialog.setContentView(R.layout.delete_category_dialog);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        btnUpdate = dialog.findViewById(R.id.btnUpdate);
+        btnCancle = dialog.findViewById(R.id.btnCancle);
+        edName = dialog.findViewById(R.id.tvNameCategory);
+        edName.setText(s);
+
+        btnUpdate.setOnClickListener(view -> {
+
+            dataViewModel.removeCategory(category);
+
+            dialog.dismiss();
+
         });
+
+        btnCancle.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+
 
 
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dataViewModel.setDataCurrentPage("Home");
+    }
 }

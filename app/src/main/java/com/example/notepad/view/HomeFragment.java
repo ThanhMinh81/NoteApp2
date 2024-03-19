@@ -151,7 +151,7 @@ public class HomeFragment extends Fragment {
             apdaterNote.notifyDataSetChanged();
         });
 
-        dataViewModel.getOptionString().observe(requireActivity(), new Observer<String>() {
+        dataViewModel.getOptionString().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 if(s.equals("Trash"))

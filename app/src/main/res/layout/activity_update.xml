@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/constraintUpdate"
+    android:background="@color/bgColorLayoutNote"
     android:layout_height="match_parent"
 
     tools:context=".view.AddNoteActivity">
@@ -19,165 +20,167 @@
         app:layout_constraintTop_toTopOf="parent">
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:background="@drawable/border_radius"
-        android:padding="5dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="2dp"
-        android:id="@+id/layoutUpdateNote"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="68dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarUpdate"
-        tools:ignore="MissingConstraints">
 
-        <EditText
-            android:backgroundTint="@color/appbar"
-            android:id="@+id/edTitleNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter text..."
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarUpdate" />
+      <LinearLayout
+          android:background="@drawable/border_radius"
+          android:padding="5dp"
+          android:layout_marginLeft="2dp"
+          android:layout_marginRight="2dp"
+          android:layout_marginBottom="2dp"
+          android:id="@+id/layoutUpdateNote"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="68dp"
+          android:orientation="vertical"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/toolbarUpdate"
+          tools:ignore="MissingConstraints">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+          <EditText
+              android:backgroundTint="@color/appbar"
+              android:id="@+id/edTitleNote"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="Enter text..."
+              android:textSize="20sp"
+              app:layout_constraintTop_toBottomOf="@+id/toolbarUpdate" />
 
-            <EditText
-                android:id="@+id/edContentNote"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/appbar"
-                android:gravity="top|start"
-                android:hint="Enter text..."
-                android:layout_marginBottom="40dp"
-                android:inputType="textMultiLine"
-                android:scrollbars="vertical"
-                android:textSize="20sp"
-                android:maxLines="20"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <CheckBox
-                    app:buttonCompat="@null"
-                    android:button="@null"
-                    android:id="@+id/cbBold"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:drawableStart="@drawable/ic_bold"
-                    android:focusable="false"
-                    android:backgroundTint="@null"
-                    android:focusableInTouchMode="false"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="5dp" />
-
-                <CheckBox
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    app:buttonCompat="@null"
-                    android:paddingTop="8dp"
-                    android:paddingLeft="5dp"
-                    android:drawableStart="@drawable/ic_italic"
-                    android:id="@+id/cbItalic"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:focusable="false"
-                    android:backgroundTint="@null"
-                    android:focusableInTouchMode="false" />
+              <EditText
+                  android:id="@+id/edContentNote"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:backgroundTint="@color/appbar"
+                  android:gravity="top|start"
+                  android:hint="Enter text..."
+                  android:layout_marginBottom="40dp"
+                  android:inputType="textMultiLine"
+                  android:scrollbars="vertical"
+                  android:textSize="20sp"
+                  android:maxLines="20"
+                  app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent" />
 
 
-                <CheckBox
 
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    app:buttonCompat="@null"
-                    android:paddingTop="3dp"
-                    android:paddingLeft="9dp"
-                    android:drawableStart="@drawable/ic_underline"
-                    android:id="@+id/cbUnderline"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:focusable="false"
-                    android:backgroundTint="@null"
-                    android:focusableInTouchMode="false" />
+              <LinearLayout
+                  android:id="@+id/linearLayout"
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:orientation="horizontal"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent">
 
-                <CheckBox
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                   android:paddingBottom="3dp"
-                    android:id="@+id/cbColorText"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:button="@null"
-                    android:drawableBottom="@drawable/ic_color"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
+                  <CheckBox
+                      app:buttonCompat="@null"
+                      android:button="@null"
+                      android:id="@+id/cbBold"
+                      android:layout_width="40dp"
+                      android:layout_height="match_parent"
+                      android:layout_marginLeft="2dp"
+                      android:layout_marginRight="2dp"
+                      android:drawableStart="@drawable/ic_bold"
+                      android:focusable="false"
+                      android:backgroundTint="@null"
+                      android:focusableInTouchMode="false"
+                      android:paddingLeft="12dp"
+                      android:paddingTop="5dp" />
 
-
-                <CheckBox
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:paddingTop="3dp"
-                    android:id="@+id/cbStrike"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:button="@null"
-                    android:drawableBottom="@drawable/ic_strike"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
-
-                <CheckBox
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:paddingBottom="3dp"
-                    android:id="@+id/cbBgColor"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:button="@null"
-                    android:drawableBottom="@drawable/ic_bgcolor"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
-                <View
-                    android:layout_weight="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <CheckBox
-                    android:paddingBottom="3dp"
-                    android:id="@+id/cbBgColor2"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:button="@null"
-                    android:drawableRight="@drawable/ic_clear"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
+                  <CheckBox
+                      android:layout_marginLeft="2dp"
+                      android:layout_marginRight="2dp"
+                      app:buttonCompat="@null"
+                      android:paddingTop="8dp"
+                      android:paddingLeft="5dp"
+                      android:drawableStart="@drawable/ic_italic"
+                      android:id="@+id/cbItalic"
+                      android:layout_width="40dp"
+                      android:layout_height="wrap_content"
+                      android:button="@null"
+                      android:focusable="false"
+                      android:backgroundTint="@null"
+                      android:focusableInTouchMode="false" />
 
 
-            </LinearLayout>
+                  <CheckBox
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                      android:layout_marginLeft="2dp"
+                      android:layout_marginRight="2dp"
+                      app:buttonCompat="@null"
+                      android:paddingTop="3dp"
+                      android:paddingLeft="9dp"
+                      android:drawableStart="@drawable/ic_underline"
+                      android:id="@+id/cbUnderline"
+                      android:layout_width="40dp"
+                      android:layout_height="wrap_content"
+                      android:button="@null"
+                      android:focusable="false"
+                      android:backgroundTint="@null"
+                      android:focusableInTouchMode="false" />
 
-    </LinearLayout>
+                  <CheckBox
+                      android:layout_marginLeft="2dp"
+                      android:layout_marginRight="2dp"
+                      android:paddingBottom="3dp"
+                      android:id="@+id/cbColorText"
+                      android:layout_width="40dp"
+                      android:layout_height="match_parent"
+                      android:button="@null"
+                      android:drawableBottom="@drawable/ic_color"
+                      android:focusable="false"
+                      android:focusableInTouchMode="false" />
+
+
+                  <CheckBox
+                      android:layout_marginLeft="2dp"
+                      android:layout_marginRight="2dp"
+                      android:paddingTop="3dp"
+                      android:id="@+id/cbStrike"
+                      android:layout_width="40dp"
+                      android:layout_height="match_parent"
+                      android:button="@null"
+                      android:drawableBottom="@drawable/ic_strike"
+                      android:focusable="false"
+                      android:focusableInTouchMode="false" />
+
+                  <CheckBox
+                      android:layout_marginLeft="2dp"
+                      android:layout_marginRight="2dp"
+                      android:paddingBottom="3dp"
+                      android:id="@+id/cbBgColor"
+                      android:layout_width="40dp"
+                      android:layout_height="match_parent"
+                      android:button="@null"
+                      android:drawableBottom="@drawable/ic_bgcolor"
+                      android:focusable="false"
+                      android:focusableInTouchMode="false" />
+                  <View
+                      android:layout_weight="2"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+                  <CheckBox
+                      android:paddingBottom="3dp"
+                      android:id="@+id/cbBgColor2"
+                      android:layout_width="40dp"
+                      android:layout_height="match_parent"
+                      android:button="@null"
+                      android:drawableRight="@drawable/ic_clear"
+                      android:focusable="false"
+                      android:focusableInTouchMode="false" />
+
+
+              </LinearLayout>
+
+          </androidx.constraintlayout.widget.ConstraintLayout>
+
+      </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

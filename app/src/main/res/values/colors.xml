@@ -17,6 +17,8 @@
 
     <color name="your_checked_color">#00FF00</color> <!-- Màu của CheckBox khi được chọn -->
     <color name="your_unchecked_color">#FF0000</color> <!-- Màu của CheckBox khi không được chọn -->
+    <color name="bgColorLayoutNote">#FFFFDD</color>
+    <color name="bgColorButton">#FAF9C7</color>
 
 
 </resources>

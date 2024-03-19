@@ -126,26 +126,14 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
         else
         {
 
+            String s = "Last edit : " ;
             Note note = noteArrayList.get(position);
             holder.tvTitle.setText(note.getTitle());
-            holder.tvTime.setText(note.getTimeEdit());
+            s += note.getTimeEdit() ;
+            holder.tvTime.setText(s);
             holder.tvContent.setVisibility(View.GONE);
 
-//            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-//                @Override
-//                public void onLongPress(MotionEvent e) {
-//                    // Xử lý sự kiện long press ở đây
-//                    iClickUpdate.enableMote();
-//                    iClickUpdate.click(note,holder.constraintLayout);
-//                }
-//            });
 
-//            holder.constraintLayout.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                   return   gestureDetector.onTouchEvent(motionEvent);
-//                }
-//            });
 
             holder.constraintLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

@@ -55,8 +55,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.Observer;
@@ -123,6 +125,8 @@ public class UpdateActivity extends AppCompatActivity {
     String idCategory = "null";
     IClickCategory iClickCategory;
 
+    TextWatcher textWatcher ;
+
     StrikethroughSpan strikethroughSpan;
     AdapterSelectCategory adapterSelectCategory;
 
@@ -141,6 +145,10 @@ public class UpdateActivity extends AppCompatActivity {
 
 
     ArrayList<Category> categoriAvailabe = new ArrayList<>();
+
+
+
+
 
     boolean check = false ;
 
@@ -263,7 +271,24 @@ public class UpdateActivity extends AppCompatActivity {
 
             noteData = getIntent().getExtras().getParcelable("note");
 
-            Log.d("fsodfiashdfasf",noteData.getBgColors());
+
+//             #A2F38C
+//            #FCFBCE
+
+//            if (!noteData.getBgColors().equals("#FCFBCE"))
+//            {
+//                // neui ko phai la bg mac dinh doi mau bg
+//                Log.d("fsodfiashdfasf", noteData.getBgColors());
+//
+//                Drawable myIcon1 = AppCompatResources.getDrawable(this, R.drawable.border_selected);
+//                GradientDrawable gradientDrawable1 = (GradientDrawable) myIcon1;
+//                gradientDrawable1.setColor(Color.parseColor(noteData.getBgColors()));
+//                // Thiết lập hướng của gradient
+//                gradientDrawable1.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+//                 linearLayout.setBackground(myIcon1);
+//
+//            }
+
             ICheckSelect iCheckSelect = new ICheckSelect() {
                 @Override
                 public void check(Category category, CheckBox checkBox) {
@@ -346,34 +371,35 @@ public class UpdateActivity extends AppCompatActivity {
             });
 
 
-            cbBold.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CheckBox checkBox = (CheckBox) view;
-                    cbBold.setBackground(getDrawable(R.drawable.checkbox_formmated));
-
-                    if(checkBox.isChecked())
-                    {
-                        if (!TextUtils.isEmpty(edContent.getText())) {
-
-                            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(format1);
-                            spannableStringBuilder.setSpan(new StyleSpan(Typeface.BOLD), 0, format1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            edContent.setText(spannableStringBuilder);
-                            edContent.setSelection(edContent.getText().length());
-                            cbBold.setChecked(true);
-
-                        } else {
-                            // Nếu không có văn bản, chỉ đặt kiểu đậm cho văn bản mới khi người dùng nhập
-                            edContent.setTypeface(Typeface.DEFAULT_BOLD);
-                            cbBold.setChecked(true);
-                        }
-                    }else {
-                        cbBold.setChecked(false);
-                    }
-                }
-            });
+//            cbBold.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    CheckBox checkBox = (CheckBox) view;
+//                    cbBold.setBackground(getDrawable(R.drawable.checkbox_formmated));
+//
+//                    if(checkBox.isChecked())
+//                    {
+//                        if (!TextUtils.isEmpty(edContent.getText())) {
+//
+//                            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(format1);
+//                            spannableStringBuilder.setSpan(new StyleSpan(Typeface.BOLD), 0, format1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            edContent.setText(spannableStringBuilder);
+//                            edContent.setSelection(edContent.getText().length());
+//                            cbBold.setChecked(true);
+//
+//                        } else {
+//                            // Nếu không có văn bản, chỉ đặt kiểu đậm cho văn bản mới khi người dùng nhập
+//                            edContent.setTypeface(Typeface.DEFAULT_BOLD);
+//                            cbBold.setChecked(true);
+//                        }
+//                    }else {
+//                        cbBold.setChecked(false);
+//                    }
+//                }
+//            });
 
              checkSelect();
+
 
         }
 
@@ -456,9 +482,16 @@ public class UpdateActivity extends AppCompatActivity {
         }
 
         // set background cho ca layout
-        if (!noteData.getBgColors().equals(ColorCustom.colorDefault)) {
-            linearLayout.setBackgroundColor(Color.parseColor(String.valueOf(noteData.getBgColors())));
-            linearLayout.setBackground(getDrawable(R.drawable.border_radius));
+        if (!noteData.getBgColors().equals("#FCFBCE")) {
+
+
+            Drawable myIcon1 = AppCompatResources.getDrawable(this, R.drawable.border_radius);
+            GradientDrawable gradientDrawable1 = (GradientDrawable) myIcon1;
+            gradientDrawable1.setColor(Color.parseColor(noteData.getBgColors()));
+            // Thiết lập hướng của gradient
+            gradientDrawable1.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+            linearLayout.setBackground(myIcon1);
+
         }else {
 
             GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
@@ -557,6 +590,7 @@ public class UpdateActivity extends AppCompatActivity {
              spannableStringBuilder.setSpan(new StyleSpan(Typeface.BOLD), 0, spannableStringBuilder.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
              edContent.setText(spannableStringBuilder);
 
+
          }
 
         if(cbItalic.isChecked())
@@ -573,43 +607,22 @@ public class UpdateActivity extends AppCompatActivity {
 
         }
 
-
-        edContent.addTextChangedListener(new TextWatcher() {
+          textWatcher = new TextWatcher() {
 
             private boolean isBold = false;
             String resour ;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("Fsafasdfa2222","asfasfa");
+                spannableStringBuilder.replace(0,spannableStringBuilder.toString().length(), charSequence.toString());
+                format1 = charSequence.toString() ;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                Log.d("câmmamamamamama", String.valueOf(start) + " -- " + String.valueOf(before));
-                // s chua cac gia tri ban dau
-
-
-                spannableStringBuilder.replace(0,spannableStringBuilder.toString().length(), s.toString());
-                 format1 = s.toString() ;
-
-//                format1 = s.toString();
-
-//                spannableStringBuilder.replace(0,format1.length(),s.toString());
-//                format1 = s.toString();
-                Log.d("length",format1.length() + " ");
-
-//                ForegroundColorSpan colorSpan1 = new ForegroundColorSpan(Color.parseColor(colorText));
-//                spannableStringBuilder.replace(0, format1.length() , s.toString());
-//                format1 = s.toString();
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // ban dau la  false
-
+            public void afterTextChanged(Editable editable) {
                 if (!isBold) {
                     Log.d("Fsafasdfa","asfasfa");
                     isBold = true;
@@ -621,7 +634,45 @@ public class UpdateActivity extends AppCompatActivity {
                     isBold = false;
                 }
             }
-        });
+        };
+
+        edContent.addTextChangedListener(textWatcher);
+
+
+//        edContent.addTextChangedListener(new TextWatcher() {
+//
+//            private boolean isBold = false;
+//            String resour ;
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                Log.d("Fsafasdfa2222","asfasfa");
+//
+//                spannableStringBuilder.replace(0,spannableStringBuilder.toString().length(), s.toString());
+//                 format1 = s.toString() ;
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                // ban dau la  false
+//
+//                if (!isBold) {
+//                    Log.d("Fsafasdfa","asfasfa");
+//                    isBold = true;
+////                    format1 = resour;
+//                    edContent.setText(spannableStringBuilder);
+//                    // chuyen con tro ve cuoi doan editext
+//                    edContent.setSelection(spannableStringBuilder.toString().length());
+//                } else {
+//                    isBold = false;
+//                }
+//            }
+//        });
     }
 
 
@@ -789,8 +840,6 @@ public class UpdateActivity extends AppCompatActivity {
 
 
 
-
-
         dialog.setContentView(R.layout.selected_category);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
@@ -887,9 +936,9 @@ public class UpdateActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                highlightText(newText);
+                highlightText2(newText.toString().trim());
 
-                Log.d("Fsfas","fasf");
+                Log.d("newttt",newText);
 
                 return true;
             }
@@ -1007,10 +1056,14 @@ public class UpdateActivity extends AppCompatActivity {
             searchView.setIconified(false);
 
 
+
+
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
                     Log.d("Fsafasfas","Dong");
+
+                    edContent.addTextChangedListener(textWatcher);
 
                     menuItemAdd.setVisible(true);
                     menuItemUndo.setVisible(true);
@@ -1214,23 +1267,33 @@ public class UpdateActivity extends AppCompatActivity {
 
     }
 
-    private void highlightText(String s) {
+
+    private void highlightText2(String s) {
+
+        edContent.removeTextChangedListener(textWatcher);
 
         SpannableString spannableString = new SpannableString(edContent.getText());
-        BackgroundColorSpan[] backgroundColorSpans = spannableString.getSpans(0, spannableString.length(), BackgroundColorSpan.class);
-        for (BackgroundColorSpan bgSpan : backgroundColorSpans) {
+        edContent.setText(spannableString);
+        BackgroundColorSpan[] backgroundColorSpan =
+                spannableString.getSpans(0, spannableString.length(), BackgroundColorSpan.class);
+        for (BackgroundColorSpan bgSpan : backgroundColorSpan) {
             spannableString.removeSpan(bgSpan);
         }
+        int indexOfKeyWord = spannableString.toString().indexOf(s);
+        Log.d("newtTet",indexOfKeyWord + " ==  " + s.length());
+        while (indexOfKeyWord > 0) {
 
-        int indexOfKeyWord = spannableString.toString().toLowerCase().indexOf(s.toLowerCase());
-        while (indexOfKeyWord >= 0) {
-            spannableString.setSpan(new BackgroundColorSpan(Color.RED), indexOfKeyWord, indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            indexOfKeyWord = spannableString.toString().toLowerCase().indexOf(s.toLowerCase(), indexOfKeyWord + s.length());
+            spannableString.setSpan(new BackgroundColorSpan(Color.YELLOW), indexOfKeyWord,
+                    indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            indexOfKeyWord = spannableString.toString().indexOf(s, indexOfKeyWord + s.length());
+
         }
-
         edContent.setText(spannableString);
-
     }
+
+
+
+
 
 
 

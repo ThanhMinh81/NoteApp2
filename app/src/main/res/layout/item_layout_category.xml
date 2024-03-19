@@ -5,39 +5,65 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:layout_margin="5dp"
-    android:background="@drawable/border_radius"
-    android:layout_height="wrap_content">
+    android:layout_height="176px">
 
-    <TextView
-        android:layout_marginLeft="10sp"
-        android:maxLines="2"
-        android:textSize="20sp"
-        android:layout_weight="2"
-        android:textColor="@color/black"
-        android:text="category1"
-        android:id="@+id/tvNameCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_margin="7dp"
-            android:src="@drawable/icons8edit48"
-            android:id="@+id/imgEditCategory"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+        <LinearLayout
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_margin="7dp"
-            android:src="@drawable/icons8delete48"
-            android:id="@+id/imgDeleteCategory"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:src="@drawable/ic_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="17sp"
+                android:id="@+id/tvNameCategory"
+                android:textColor="@color/black"
+                android:text="Category1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="bottom|right"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgEditCategory"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/imgDeleteCategory"
+               android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_trash"
+                android:layout_width="30dp"
+                android:layout_height="25dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:background="#EBE5C2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
 
     </LinearLayout>
+
 
 </LinearLayout>
