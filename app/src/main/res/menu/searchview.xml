@@ -2,14 +2,16 @@
 <menu xmlns:myapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-
     tools:context="example.javatpoint.com.optionmenu.MainActivity">
 
     <item
+        android:iconifiedByDefault="true"
         android:id="@+id/item_search"
         android:icon="@drawable/ic_search"
-        myapp:showAsAction="ifRoom|collapseActionView"
+        myapp:showAsAction="always"
         android:title="TODO"
-        myapp:actionViewClass="androidx.appcompat.widget.SearchView" />
+        myapp:actionViewClass="androidx.appcompat.widget.SearchView"
+
+         />
 
 </menu>

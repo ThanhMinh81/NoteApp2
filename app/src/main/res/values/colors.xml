@@ -11,4 +11,12 @@
     <color name="themeSolari2">#F6EABE</color>
     <color name="colorTextSolari">#56717B</color>
 
+    <color name="themeSolari22">#F9F8C2</color>
+    <color name="colorTextSolari2">#FCFCCF</color>
+    <color name="bottomCategoryCheckbox">#7f8c8d</color>
+
+    <color name="your_checked_color">#00FF00</color> <!-- Màu của CheckBox khi được chọn -->
+    <color name="your_unchecked_color">#FF0000</color> <!-- Màu của CheckBox khi không được chọn -->
+
+
 </resources>

@@ -4,37 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notepad.Adapter.AdapterNote;
 import com.example.notepad.Adapter.AdapterSelect;
 import com.example.notepad.Database.DBManager;
-import com.example.notepad.Database.DatabaseHandler;
 import com.example.notepad.Interface.IClickSelect;
-import com.example.notepad.MainActivity;
 import com.example.notepad.Model.Note;
 import com.example.notepad.R;
-import com.example.notepad.ViewModel.DataViewModel;
 
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 public class SelectAllActivity extends AppCompatActivity {
 

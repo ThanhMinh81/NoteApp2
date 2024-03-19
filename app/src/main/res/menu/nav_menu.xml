@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn = "navigation_view">
 
-    <group android:id="@+id/note"   android:checkableBehavior="single">
+    <group android:id="@+id/note"   android:checkableBehavior="none">
 
         <item
             android:id="@+id/fragmentHome"
@@ -16,12 +16,12 @@
 
 
 
-     <group android:id="@+id/categroy"    android:checkableBehavior="single">
+     <group android:id="@+id/categroy"    android:checkableBehavior="none">
          <item
              android:title="Category">
 
              <menu>
-                 <group  android:checkableBehavior="single" >
+                 <group  android:checkableBehavior="none" >
 
                      <item
                          android:id="@+id/nav_editCategory"
@@ -33,7 +33,7 @@
          </item>
      </group>
 
-    <group android:id="@+id/backup"    android:checkableBehavior="single">
+    <group android:id="@+id/backup"    android:checkableBehavior="none">
 
         <item
             android:id="@+id/nav_backup"
@@ -48,7 +48,7 @@
     </group>
 
 
-    <group android:id="@+id/setting"    android:checkableBehavior="single">
+    <group android:id="@+id/setting"    android:checkableBehavior="none">
 
         <item
             android:id="@+id/nav_setting_theme"

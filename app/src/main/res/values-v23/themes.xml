@@ -11,8 +11,19 @@
 
     </style>
 
+    <style name="checkbox_checked_style" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:tint">@color/red</item>
+    </style>
+
+
+
     <style name="IconOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/white</item>
+    </style>
+
+    <style  name="Custom" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
 
@@ -30,6 +41,28 @@
         <item name="android:background">@drawable/border_selected_formmat</item>
         <item name="android:button">@null</item>
     </style>
+
+
+
+        <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
+            <!-- Thiết lập các thuộc tính cho toolbar -->
+            <item name="android:editTextColor">@android:color/white</item>
+            <item name="android:gravity">center</item>
+
+            <!-- Các thuộc tính khác có thể được thiết lập tại đây -->
+        </style>
+
+<!--    khi mà dùng cái ni thì bị cái tất cả các text của menu đều bị đổi màu trắng luôn-->
+<!--    dùng  cái trên thì không bị -->
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/appbar</item>
+    </style>
+
+
+
+
 
 
 </resources>

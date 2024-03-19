@@ -6,16 +6,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.notepad.Database.DBManager;
-import com.example.notepad.Database.DatabaseHandler;
 import com.example.notepad.Model.Category;
 import com.example.notepad.Model.Note;
+import com.example.notepad.Model.SelectAll;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
 
 public class DataViewModel extends ViewModel {
 
@@ -33,6 +28,14 @@ public class DataViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Note>> listNoteCategory = new MutableLiveData<>();
 
+    private MutableLiveData<SelectAll> selectAllMutableLiveData = new MutableLiveData<>();
+
+
+    private MutableLiveData<ArrayList<Category>> mutableLiveDataAvailableCategory = new MutableLiveData<>();
+
+    private MutableLiveData<String> optionString = new MutableLiveData<>();
+
+
 
     DBManager databaseHandler;
 
@@ -42,7 +45,8 @@ public class DataViewModel extends ViewModel {
 
     public void getData() {
 //        listMutableLiveData.setValue(databaseHandler.getAllNotes());
-        listMutableLiveData.setValue(databaseHandler.getAllNoteCategory());
+//        listMutableLiveData.setValue(databaseHandler.getAllNoteCategory());
+        listMutableLiveData.setValue(databaseHandler.getAllNoteCategory2());
     }
 
     public MutableLiveData<ArrayList<Note>> getListMutableLiveData() {
@@ -53,6 +57,7 @@ public class DataViewModel extends ViewModel {
     public MutableLiveData<String> getStringMutableLiveData() {
         return stringMutableLiveData;
     }
+
 
     public void setStringMutableLiveData(String stringMutableLiveData) {
         this.stringMutableLiveData.setValue(stringMutableLiveData);
@@ -98,6 +103,14 @@ public class DataViewModel extends ViewModel {
         return listCategory;
     }
 
+    public MutableLiveData<String> getOptionString() {
+        return optionString;
+    }
+
+    public void setOptionString(String optionString) {
+        this.optionString.setValue(optionString);
+    }
+
     public void setListCategory(ArrayList<Category> listCategory) {
         this.listCategory.setValue(listCategory);
     }
@@ -107,11 +120,10 @@ public class DataViewModel extends ViewModel {
         this.listMutableLiveData.setValue(noteArrayList);
     }
 
+
     public ArrayList<Note> getValueArr() {
         return this.listMutableLiveData.getValue();
     }
-
-
 
 
     public void updateNote(Note note) {
@@ -129,55 +141,93 @@ public class DataViewModel extends ViewModel {
         this.listMutableLiveData.setValue(noteArrayList);
         this.listMutableLiveData.setValue(notes);
 
-//        databaseHandler.updateNote(note);
+        databaseHandler.updateNote2(note);
 
     }
 
 
-    public void getAllListCategory(){
+    public MutableLiveData<SelectAll> getSelectAllMutableLiveData() {
+        return selectAllMutableLiveData;
+    }
+
+    public void setSelectAllMutableLiveData(SelectAll selectAllMutableLiveData) {
+        this.selectAllMutableLiveData.setValue(selectAllMutableLiveData);
+    }
+
+    public void getAllListCategory() {
         this.listCategory.setValue(this.databaseHandler.getAllCategory());
     }
 
-    public  void addCategory(Category category)
-    {
+    public void addCategory(Category category) {
         databaseHandler.addCategory(category);
         getAllListCategory();
     }
 
 
-    public void removeCategory(Category category)
-    {
+    public void removeCategory(Category category) {
         databaseHandler.deleteCategory(category);
         getAllListCategory();
     }
 
-    public void updateCategory(Category category)
-    {
+    public void updateCategory(Category category) {
         databaseHandler.updateCategory(category);
         this.getAllListCategory();
     }
 
 
-    public void updateCategoryNote(Note note,String id)
-    {
-        databaseHandler.updateCategoryNote(note,id);
+    public MutableLiveData<ArrayList<Category>> getMutableLiveDataAvailableCategory() {
+        return mutableLiveDataAvailableCategory;
     }
 
-    public  void getNoteIDCategory(String id)
-    {
-        ArrayList<Note> notes =  databaseHandler.getListNote(id);
+    public void setMutableLiveDataAvailableCategory(ArrayList<Category> mutableLiveDataAvailableCategory) {
+        this.mutableLiveDataAvailableCategory.setValue(mutableLiveDataAvailableCategory);
+    }
+
+    public void updateCategoryNote(Note note, String id) {
+        databaseHandler.updateCategoryNote(note, id);
+    }
+
+    public void getNoteIDCategory(String id) {
+        ArrayList<Note> notes = databaseHandler.getListNote(id);
         this.listNoteCategory.setValue(notes);
     }
 
 
-    public void deleteNoteCategory(Note note,String idCategory)
-    {
-        databaseHandler.deleteCategoryNote(note,idCategory);
+    public void deleteNoteCategory(Note note, String idCategory) {
+        databaseHandler.deleteCategoryNote(note, idCategory);
         getNoteIDCategory(idCategory);
     }
 
+    public void addNote(Note note) {
+        databaseHandler.addNote2(note);
+        getData();
+    }
+
+    public void getCategoryOfNote(String idNote)
+    {
+        Log.d("fasdfasdf",idNote);
+        this.setMutableLiveDataAvailableCategory(databaseHandler.getCategoriesOfNote(idNote));
+    }
+
+    public void deleteMultipleNotes(ArrayList<Note> notes)
+    {
+
+        ArrayList<String> strings = new ArrayList<>();
+        for (Note note : notes)
+        {
+            strings.add(String.valueOf(note.getIdNote()));
+        }
+
+        databaseHandler.deleteMultipleNotes(strings);
+
+        this.getData();
+    }
 
 
+    public void updateNoteCategoryList(ArrayList<Note> notes , ArrayList<Category> categories)
+    {
+        databaseHandler.updateNotesCategories(notes,categories);
+    }
 
 
 

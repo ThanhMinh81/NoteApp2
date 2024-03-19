@@ -9,21 +9,27 @@
             android:id="@+id/nav_undoall"
             android:title="Undo all" />
         <item
+            android:id="@+id/nav_share"
+            android:title="Share" />
+        <item
             android:id="@+id/nav_delete"
             android:title="Delete" />
         <item
-            myapp:actionViewClass="androidx.appcompat.widget.SearchView"
-
             android:id="@+id/nav_search"
             android:title="Search" />
         <item
-            android:id="@+id/nav_export"
-            android:title="Export  to a text files" />
+            android:id="@+id/nav_Export"
+            android:title="Export to a text file" />
         <item
             android:id="@+id/nav_category"
             android:title="Categorize" />
         <item
             android:id="@+id/nav_colorize"
             android:title="Colorize" />
+
+
+        <item
+            android:id="@+id/nav_switch"
+            android:title="Switch to read mote" />
     </group>
 </menu>

@@ -1,11 +1,10 @@
 package com.example.notepad.Adapter;
 
+
 import static com.example.notepad.R.*;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.Html;
@@ -13,10 +12,11 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +24,6 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notepad.Interface.IClickLongTime;
 import com.example.notepad.Interface.IClickUpdate;
 import com.example.notepad.Model.Note;
 import com.example.notepad.R;
@@ -40,6 +39,14 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
 
     private IClickUpdate iClickUpdate;
 
+    private String selectAll = "no";
+
+    private String bgColorForAll= "";
+
+    private ArrayList<Integer>  positionArray = new ArrayList<>();
+
+    private GestureDetector gestureDetector;
+
 
     private String themeNote = "default";
 
@@ -47,6 +54,8 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
     private String colorTheme = "#ffff99";
 
     private String searchText = new String();
+
+    private ArrayList<Note> noteArrayList2 = new ArrayList<>() ;
 
 
     public AdapterNote(ArrayList<Note> noteArrayList, Context context, IClickUpdate iClickUpdate) {
@@ -74,6 +83,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        Log.d("c",position + "" );
 
         if (searchText.length() > 0) {
 
@@ -107,56 +117,135 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
                 holder.tvContent.setText(sb);
             }
 
-            holder.constraintLayout.setOnClickListener(v -> {
-                iClickUpdate.click(note);
-            });
 
-        } else {
+//            holder.constraintLayout.setOnClickListener(v -> {
+//                iClickUpdate.click(note);
+//            });
+
+        }
+        else
+        {
+
             Note note = noteArrayList.get(position);
             holder.tvTitle.setText(note.getTitle());
             holder.tvTime.setText(note.getTimeEdit());
             holder.tvContent.setVisibility(View.GONE);
 
+//            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+//                @Override
+//                public void onLongPress(MotionEvent e) {
+//                    // Xử lý sự kiện long press ở đây
+//                    iClickUpdate.enableMote();
+//                    iClickUpdate.click(note,holder.constraintLayout);
+//                }
+//            });
+
+//            holder.constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View view, MotionEvent motionEvent) {
+//                   return   gestureDetector.onTouchEvent(motionEvent);
+//                }
+//            });
+
+            holder.constraintLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    Log.d("keeieje","trfgs"+ note.getTitle());
+
+                    iClickUpdate.enableMote();
+                    iClickUpdate.click(note,holder.constraintLayout);
+
+                    return true;
+                }
+            });
+
+            holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    iClickUpdate.click(note,holder.constraintLayout);
+
+                }
+            });
+
+            if(noteArrayList2.size() > 0)
+            {
+
+                if(noteArrayList2.contains(note))
+                {
+
+                        Log.d("f38e97ee9wu",note.getTitle() + " " + note.getBgColors());
+                        Drawable myIcon = AppCompatResources.getDrawable(context, drawable.border_selected);
+                        GradientDrawable gradientDrawable = (GradientDrawable) myIcon;
+                        gradientDrawable.setColor(Color.parseColor(note.getBgColors()));
+
+                        // Thiết lập loại gradient
+                        gradientDrawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+
+                        // Thiết lập màu gradient cho start, center và end
+                        int startColor = Color.parseColor("#F5F1CE");
+                        int centerColor = Color.parseColor("#E1CFAE");
+                        int endColor = Color.parseColor("#CBB495");
+
+                        // Thiết lập màu gradient cho start, center và end
+                        gradientDrawable.setColors(new int[]{startColor, centerColor, endColor});
+
+                        // Thiết lập hướng của gradient
+                        gradientDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+
+                        holder.constraintLayout.setBackground(myIcon);
+
+//                    }else if(!note.getBgColors().toString().trim().equals("#FCFBCE")) {
+//
+//                        Drawable myIcon1 = AppCompatResources.getDrawable(context, drawable.border_selected);
+//                        GradientDrawable gradientDrawable1 = (GradientDrawable) myIcon1;
+//                        gradientDrawable1.setColor(Color.parseColor(note.getBgColors()));
+//                        // Thiết lập hướng của gradient
+//                        gradientDrawable1.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+//                        holder.constraintLayout.setBackground(myIcon1);
+//
+//
+                
+
+
+
+                }
+                else
+                {
+                    Drawable myIcon = AppCompatResources.getDrawable(context, drawable.border_radius);
+                    GradientDrawable gradientDrawable = (GradientDrawable) myIcon;
+
+                    // o theme mac dinh thi xet mau nhu bt
+                    gradientDrawable.setStroke(3, Color.parseColor("#836E4C"));
+                    gradientDrawable.setColor(Color.parseColor(note.getBgColors()));
+                    holder.constraintLayout.setBackground(myIcon);
+                }
+
+            }
+            else {
+                Drawable myIcon = AppCompatResources.getDrawable(context, drawable.border_radius);
+                GradientDrawable gradientDrawable = (GradientDrawable) myIcon;
+
+                // o theme mac dinh thi xet mau nhu bt
+                gradientDrawable.setStroke(3, Color.parseColor("#836E4C"));
+                gradientDrawable.setColor(Color.parseColor(note.getBgColors()));
+                holder.constraintLayout.setBackground(myIcon);
+            }
+
+
+
+
+
             if(iClickUpdate != null)
             {
                 holder.constraintLayout.setOnClickListener(v -> {
-                    iClickUpdate.click(note);
+                    iClickUpdate.click(note,holder.constraintLayout);
                 });
             }
 
 
-            Drawable myIcon = AppCompatResources.getDrawable(context, drawable.border_radius_corners);
 
-            GradientDrawable gradientDrawable = (GradientDrawable) myIcon;
-
-            if (themeNote.equals("Default")) {
-                // o theme mac dinh thi xet mau nhu bt
-                gradientDrawable.setStroke(5, Color.parseColor("#836E4C"));
-                gradientDrawable.setColor(Color.parseColor(note.getBgColors()));
-                holder.constraintLayout.setBackground(myIcon);
-            } else {
-
-                // neu nhu note do o mau macdinh thi lay mau cua theme
-                gradientDrawable.setStroke(5, Color.parseColor("#56717B"));
-                if (note.getBgColors().equals("#FCFACA")) {
-//                    -198944
-                    Log.d("checkColor", colorTheme);
-                    gradientDrawable.setColor(Color.parseColor(colorTheme));
-                    holder.constraintLayout.setBackground(myIcon);
-
-                } else {
-
-                    gradientDrawable.setColor(Color.parseColor(note.getBgColors()));
-                    holder.constraintLayout.setBackground(myIcon);
-
-                }
-
-
-            }
-
-//              }
-
-        }
+         }
 
     }
 
@@ -169,6 +258,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
 
         public TextView tvTitle, tvTime, tvContent;
         ConstraintLayout constraintLayout;
+
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -202,6 +292,36 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.ViewHolder>  {
         this.themeNote = textTheme;
         this.colorTheme = bgColor;
         notifyDataSetChanged();
+    }
+
+    public void selectAllNote(String selectAllNote)
+    {
+        this.selectAll = selectAllNote ;
+        notifyDataSetChanged();
+    }
+
+    public void addList(ArrayList<Note> notes)
+    {
+        this.noteArrayList2.clear();
+        this.noteArrayList2.addAll(notes);
+
+        notifyDataSetChanged();
+
+    }
+
+
+    private int darkenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f; // Giảm giá trị brightness
+        return Color.HSVToColor(hsv);
+    }
+
+    private int lightenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 1.2f; // Tăng giá trị brightness
+        return Color.HSVToColor(hsv);
     }
 
 

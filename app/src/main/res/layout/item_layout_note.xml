@@ -7,7 +7,7 @@
     android:padding="5dp"
     android:layout_margin="1dp"
     android:background="@drawable/border_radius"
-    android:layout_height="wrap_content">
+    android:layout_height="176px">
 
     <TextView
         android:layout_marginLeft="15sp"

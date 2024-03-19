@@ -17,7 +17,8 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            
+            android:gravity="center_horizontal"
+            android:theme="@style/AppToolbar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -60,6 +61,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
+        app:theme="@style/Custom"
+        android:itemBackground="@android:color/transparent"
         app:headerLayout="@layout/nav_header"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

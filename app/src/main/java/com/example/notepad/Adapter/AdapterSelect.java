@@ -1,9 +1,6 @@
 package com.example.notepad.Adapter;
 
-import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
-
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

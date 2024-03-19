@@ -10,12 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.notepad.Interface.IClickCategory;
 import com.example.notepad.Interface.IClickLongTime;
 import com.example.notepad.Model.Note;
 import com.example.notepad.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AdapterItemNoteCategory extends RecyclerView.Adapter<AdapterItemNoteCategory.ViewHolder> {
@@ -78,7 +76,7 @@ public class AdapterItemNoteCategory extends RecyclerView.Adapter<AdapterItemNot
             tvTitle = itemView.findViewById(R.id.tvTitle);
 
             tvContent = itemView.findViewById(R.id.tvContent);
-            imageView = itemView.findViewById(R.id.deleteItemCategory);
+
 
         }
     }

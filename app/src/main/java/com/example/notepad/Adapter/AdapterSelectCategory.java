@@ -1,6 +1,6 @@
 package com.example.notepad.Adapter;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notepad.Interface.ICheckSelect;
 import com.example.notepad.Interface.IClickCategory;
 import com.example.notepad.Model.Category;
-import com.example.notepad.Model.Note;
 import com.example.notepad.R;
 
 import java.util.ArrayList;
@@ -25,10 +25,24 @@ public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCat
 
     IClickCategory iClickCategory ;
 
+    private ArrayList<Category> categoriesCheck   ;
+
+    ICheckSelect iCheckSelect;
+
+
+
+
+    public AdapterSelectCategory(ArrayList<Category> categoryArrayList, IClickCategory iClickCategory  , ICheckSelect iCheckSelect) {
+        this.categoryArrayList = categoryArrayList;
+        this.iClickCategory = iClickCategory;
+        this.iCheckSelect = iCheckSelect ;
+
+    }
 
     public AdapterSelectCategory(ArrayList<Category> categoryArrayList, IClickCategory iClickCategory) {
         this.categoryArrayList = categoryArrayList;
         this.iClickCategory = iClickCategory;
+
     }
 
     @NonNull
@@ -48,13 +62,27 @@ public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCat
     @Override
     public void onBindViewHolder(@NonNull AdapterSelectCategory.ViewHolder holder, int position) {
 
+        Log.d("fsfasf323",categoryArrayList.size() + " ");
+
         Category category = categoryArrayList.get(position);
 
         holder.textView.setText(category.getNameCategory());
 
-        holder.checkBox.setOnClickListener(v -> {
-          iClickCategory.click(category.getIdCategory());
+        if(iCheckSelect != null)
+        {
+            iCheckSelect.check(category,holder.checkBox);
+        }
+
+
+        holder.checkBox.setOnClickListener((View view) -> {
+
+            CheckBox checkBox = (CheckBox) view;
+            iClickCategory.click(category,checkBox.isChecked());
+
         });
+
+
+
 
     }
 
@@ -76,6 +104,11 @@ public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCat
 
         }
     }
+
+
+
+
+
 
 
 

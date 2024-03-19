@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notepad.Interface.ICategory;
 import com.example.notepad.Model.Category;
-import com.example.notepad.Model.Note;
 import com.example.notepad.R;
 
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Note implements Parcelable {
 
@@ -36,8 +36,12 @@ public class Note implements Parcelable {
     String backgroundColorText ;
     String strikerText = "false" ;
 
+    ArrayList<Category> categories = new ArrayList<>() ;
+
+
 
     public Note() {
+        categories = new ArrayList<>();
     }
 
     public Note(int idNote, String title, String content, String timeEdit, String bgColors, Boolean checkSelect, int idNoteStyle, String styleItalic, String styleBold, String styleTextColor, String styleUnderline, String idCategory, String backgroundColorText, String strikerText) {
@@ -57,6 +61,7 @@ public class Note implements Parcelable {
         this.strikerText = strikerText;
     }
 
+
     protected Note(Parcel in) {
         idNote = in.readInt();
         title = in.readString();
@@ -73,6 +78,7 @@ public class Note implements Parcelable {
         idCategory = in.readString();
         backgroundColorText = in.readString();
         strikerText = in.readString();
+        categories = in.createTypedArrayList(Category.CREATOR);
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -109,6 +115,14 @@ public class Note implements Parcelable {
 
     public void setStyleTextColor(String styleTextColor) {
         this.styleTextColor = styleTextColor;
+    }
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = categories;
     }
 
     public String getStyleUnderline() {
@@ -172,6 +186,7 @@ public class Note implements Parcelable {
     }
 
 
+
     public String getBackgroundColorText() {
         return backgroundColorText;
     }
@@ -214,7 +229,9 @@ public class Note implements Parcelable {
         parcel.writeString(idCategory);
         parcel.writeString(backgroundColorText);
         parcel.writeString(strikerText);
+        parcel.writeTypedList(categories);
     }
+
 
     public int getIdNoteStyle() {
         return idNoteStyle;

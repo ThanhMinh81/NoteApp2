@@ -15,9 +15,10 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="Select category "
-            android:textStyle="bold"
-            android:textSize="18sp"
+            android:layout_marginBottom="15dp"
+            android:text="Select category"
+            android:textColor="@color/black"
+            android:textSize="25sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -27,9 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-
         <LinearLayout
-
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:layout_marginRight="20dp"
@@ -42,7 +41,7 @@
             <TextView
                 android:id="@+id/tvCancleCategory"
                 android:layout_marginRight="30sp"
-                android:textStyle="bold"
+                 android:textSize="18sp"
                 android:textColor="@color/appbar"
                 android:text="CANCLE"
                 android:layout_width="wrap_content"
@@ -51,8 +50,8 @@
 
             <TextView
                 android:layout_marginRight="30sp"
+                android:textSize="18sp"
                 android:id="@+id/tvOkCategory"
-                android:textStyle="bold"
                 android:textColor="@color/appbar"
                 android:text="OK"
                 android:layout_width="wrap_content"

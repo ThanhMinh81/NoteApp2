@@ -4,9 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.notepad.Model.Selected;
 
-import java.util.ArrayList;
-import java.util.Formattable;
-
 public class UpdateViewModel {
 
     private MutableLiveData<Selected> mutableLiveData = new MutableLiveData<>();

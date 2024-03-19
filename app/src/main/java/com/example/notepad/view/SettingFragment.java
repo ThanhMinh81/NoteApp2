@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.notepad.MainActivity;
 import com.example.notepad.R;
 import com.example.notepad.ViewModel.DataViewModel;
 

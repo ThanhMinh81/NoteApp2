@@ -25,4 +25,15 @@
         <item name="android:tint">@color/red</item>
     </style>
 
+    <!--    checkbox  style for colored checkbox -->
+    <style name="colored_checkBox" parent="Theme.AppCompat.Light">
+        <!--seelct checkbox color-->
+        <item name="colorAccent">@android:color/holo_red_dark</item>
+        <!--        mac dinh khi khong check -->
+        <item name="android:textColorSecondary">@color/red</item>
+
+
+    </style>
+
+
 </resources>

@@ -32,17 +32,6 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-
-
-    <ImageView
-        android:id="@+id/deleteItemCategory"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/icons8delete48"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>

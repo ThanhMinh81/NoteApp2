@@ -1,17 +1,8 @@
 package com.example.notepad.Database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import androidx.annotation.Nullable;
-
-import com.example.notepad.Model.Note;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -61,6 +52,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String NAME_CATEGORY   = "nameCategory";
 
 
+    // CREATE TABLE JOINTABLE
+
+    public static final String TABLE_JOIN = "tbl_jointable";
+
+
+
+
+
     public DatabaseHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -68,12 +67,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
+        // tao bang join
+
+        String CREATE_JOIN_TABLE = "CREATE TABLE " + TABLE_JOIN + "("
+                + KEY_ID_NOTE + " INTEGER ,"
+                + KEY_ID_CATEGORY + " TEXT,"
+                + "FOREIGN KEY (" + KEY_ID_NOTE + ") REFERENCES " + TABLE_NOTE + "(" + KEY_ID_NOTE + ") ,"
+                + "FOREIGN KEY (" + KEY_ID_CATEGORY + ") REFERENCES " + TABLE_CATEGORY + "(" + KEY_ID_CATEGORY + ") "
+                + ")";
+
+        sqLiteDatabase.execSQL(CREATE_JOIN_TABLE);
+
+
 
         // tao bang category
 
         String CREATE_CATEGORY_NOTE = "CREATE TABLE " + TABLE_CATEGORY + "("
                 + KEY_ID_CATEGORY + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + NAME_CATEGORY + " TEXT"  + ")";
+                + NAME_CATEGORY + " TEXT"
+                + ")";
+
 
         sqLiteDatabase.execSQL(CREATE_CATEGORY_NOTE);
 
@@ -85,10 +98,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_TITLE + " TEXT,"
                 + KEY_CONTENT + " TEXT,"
                 + KEY_TIME_EDIT + " TEXT,"
-                + KEY_BACKGROUND + " TEXT,"
-                + KEY_IDCATEGORY + " INTEGER,"
-                + "FOREIGN KEY (" + KEY_IDCATEGORY + ") REFERENCES " + TABLE_CATEGORY + "(" + KEY_ID_CATEGORY + ")"
-                + ")";
+                + KEY_BACKGROUND + " TEXT )" ;
+
         sqLiteDatabase.execSQL(CREATE_NOTE_TABLE);
 
         // create table format

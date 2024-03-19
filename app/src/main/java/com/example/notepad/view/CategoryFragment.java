@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.example.notepad.Adapter.AdapterCategory;
 import com.example.notepad.Database.DBManager;
 import com.example.notepad.Interface.ICategory;
-import com.example.notepad.MainActivity;
 import com.example.notepad.Model.Category;
 import com.example.notepad.R;
 import com.example.notepad.ViewModel.DataViewModel;
@@ -31,7 +30,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 
 
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends Fragment   {
     View view;
     MaterialButton btnAddCaterory ;
     EditText edName ;
