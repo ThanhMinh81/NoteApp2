@@ -1,0 +1,7 @@
+<!-- res/drawable/border_circle.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <stroke
+        android:width="2dp"
+        android:color="#FF0000" /> <!-- Màu và độ rộng của border -->
+</shape>

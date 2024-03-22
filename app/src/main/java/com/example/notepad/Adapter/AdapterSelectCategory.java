@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notepad.Interface.ICheckBoxCategory;
 import com.example.notepad.Interface.ICheckSelect;
 import com.example.notepad.Interface.IClickCategory;
 import com.example.notepad.Model.Category;
@@ -20,23 +21,20 @@ import java.util.ArrayList;
 public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCategory.ViewHolder> {
 
 
+    private ArrayList<Category> categoryArrayList;
 
-    private ArrayList<Category> categoryArrayList ;
+    private ICheckBoxCategory iCheckBoxCategory ;
 
-    IClickCategory iClickCategory ;
+    IClickCategory iClickCategory;
 
-    private ArrayList<Category> categoriesCheck   ;
+    private ArrayList<Category> categoriesCheck;
 
     ICheckSelect iCheckSelect;
 
 
-
-
-    public AdapterSelectCategory(ArrayList<Category> categoryArrayList, IClickCategory iClickCategory  , ICheckSelect iCheckSelect) {
+    public AdapterSelectCategory(ArrayList<Category> categoryArrayList,ICheckBoxCategory iCheckBoxCategory) {
         this.categoryArrayList = categoryArrayList;
-        this.iClickCategory = iClickCategory;
-        this.iCheckSelect = iCheckSelect ;
-
+        this.iCheckBoxCategory = iCheckBoxCategory ;
     }
 
     public AdapterSelectCategory(ArrayList<Category> categoryArrayList, IClickCategory iClickCategory) {
@@ -62,27 +60,33 @@ public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCat
     @Override
     public void onBindViewHolder(@NonNull AdapterSelectCategory.ViewHolder holder, int position) {
 
-        Log.d("fsfasf323",categoryArrayList.size() + " ");
+        Log.d("fsfasf323", categoryArrayList.size() + " ");
 
         Category category = categoryArrayList.get(position);
 
         holder.textView.setText(category.getNameCategory());
 
-        if(iCheckSelect != null)
-        {
-            iCheckSelect.check(category,holder.checkBox);
-        }
+//        if (iCheckSelect != null) {
+//            Log.d("23752",category.getNameCategory());
+//            iCheckSelect.check(category, holder.checkBox);
+//        }
+//
+//        holder.checkBox.setOnClickListener((View view) -> {
+//            CheckBox checkBox = (CheckBox) view;
+//            iClickCategory.click(category, checkBox.isChecked());
+//        });
 
+//        iCheckBoxCategory.initValueCheckBox(category);
 
-        holder.checkBox.setOnClickListener((View view) -> {
+        iCheckBoxCategory.initValueCheckBox(category,holder.checkBox);
 
-            CheckBox checkBox = (CheckBox) view;
-            iClickCategory.click(category,checkBox.isChecked());
-
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckBox checkBox = (CheckBox) view;
+                iCheckBoxCategory.clickCheckbox(category,checkBox.isChecked());
+            }
         });
-
-
-
 
     }
 
@@ -93,8 +97,8 @@ public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCat
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-         CheckBox checkBox ;
-         TextView textView ;
+        CheckBox checkBox;
+        TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -104,12 +108,6 @@ public class AdapterSelectCategory extends RecyclerView.Adapter<AdapterSelectCat
 
         }
     }
-
-
-
-
-
-
 
 
 }
